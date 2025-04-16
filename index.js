@@ -1,4 +1,4 @@
-const express = require('express')
+import express from 'express'
 
 const app = express()
 
@@ -7,6 +7,8 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Ok' })
 })
 
-app.listen(4020, () => {
-  console.log('Server is up and running on port 4020')
+const PORT = process.env.PORT || 4020
+
+app.listen(PORT, () => {
+  console.log(`Server is up and running on port ${PORT}`)
 })

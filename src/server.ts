@@ -1,10 +1,8 @@
 import express from 'express'
+import router from './router'
 
 const app = express()
 
-// Routing
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Ok' })
-})
+app.use('/auth', router)
 
 export default app

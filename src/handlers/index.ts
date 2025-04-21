@@ -1,10 +1,11 @@
 import type { Request, Response } from 'express'
+import slugify from 'slugify'
 import User from '../models/User'
 import { hashPassword } from '../utils/auth'
 
 export const createAccount = async (req: Request, res: Response) => {
   try {
-    const { name, email, password } = req.body
+    const { name, handle, email, password } = req.body
 
     const userExists = await User.findOne({ email })
 
@@ -14,9 +15,19 @@ export const createAccount = async (req: Request, res: Response) => {
       return
     }
 
+    const userHandle = slugify(handle, '')
+
+    const handleExists = await User.findOne({ handle: userHandle })
+
+    if (handleExists) {
+      const error = new Error('This handle is already in use')
+      res.status(409).json({ message: error.message })
+      return
+    }
+
     const hash = await hashPassword(password)
 
-    const user = new User({ name, email, password: hash })
+    const user = new User({ name, handle: userHandle, email, password: hash })
 
     await user.save()
 

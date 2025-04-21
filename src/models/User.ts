@@ -3,6 +3,7 @@ import mongoose, { Schema } from 'mongoose'
 interface IUser {
   name: string
   email: string
+  handle: string
   password: string
 }
 
@@ -11,6 +12,13 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'A user must have a name'],
     trim: true,
+  },
+  handle: {
+    type: String,
+    required: [true, 'A user must have a handle'],
+    trim: true,
+    unique: true,
+    lowercase: true,
   },
   email: {
     type: String,

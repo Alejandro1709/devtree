@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express'
 import User from '../models/User'
+import { hashPassword } from '../utils/auth'
 
 export const createAccount = async (req: Request, res: Response) => {
   try {
@@ -13,12 +14,14 @@ export const createAccount = async (req: Request, res: Response) => {
       return
     }
 
-    const user = new User({ name, email, password })
+    const hash = await hashPassword(password)
+
+    const user = new User({ name, email, password: hash })
 
     await user.save()
 
     res.status(201).json({ status: 'success', data: { user } })
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json(error.message)
   }
 }

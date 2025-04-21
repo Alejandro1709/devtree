@@ -1,6 +1,5 @@
 import type { Request, Response } from 'express'
 import slugify from 'slugify'
-import { validationResult } from 'express-validator'
 import User from '../models/User'
 import { checkPassword, hashPassword } from '../utils/auth'
 

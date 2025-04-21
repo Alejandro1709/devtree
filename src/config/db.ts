@@ -6,7 +6,7 @@ export const connectDB = async (uri: string) => {
     const { connection } = await mongoose.connect(uri)
 
     console.log(
-      colors.bgGreen.white(`Connected to ${connection.host}:${connection.port}`)
+      colors.green(`Connected to ${connection.host}:${connection.port}`)
     )
   } catch (error) {
     console.log(colors.bgRed.white(error.message))

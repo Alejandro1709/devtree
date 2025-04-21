@@ -2,7 +2,7 @@ import type { Request, Response } from 'express'
 import slugify from 'slugify'
 import { validationResult } from 'express-validator'
 import User from '../models/User'
-import { hashPassword } from '../utils/auth'
+import { checkPassword, hashPassword } from '../utils/auth'
 
 export const createAccount = async (req: Request, res: Response) => {
   try {
@@ -44,4 +44,33 @@ export const createAccount = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json(error.message)
   }
+}
+
+export const login = async (req: Request, res: Response) => {
+  let errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() })
+    return
+  }
+
+  let { email, password } = req.body
+
+  const user = await User.findOne({ email })
+
+  if (!user) {
+    const error = new Error('This user does not exists')
+    res.status(404).json({ message: error.message })
+    return
+  }
+
+  const isPasswordCorrect = await checkPassword(password, user.password)
+
+  if (!isPasswordCorrect) {
+    const error = new Error('Invalid Credentials')
+    res.status(401).json({ message: error.message })
+    return
+  }
+
+  console.log('Logged in')
 }

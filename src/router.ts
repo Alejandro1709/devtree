@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
-import { createAccount } from './handlers'
+import { createAccount, login } from './handlers'
 
 const router = Router()
 
@@ -14,6 +14,13 @@ router.post(
     .isLength({ min: 7 })
     .withMessage('Please provide a password greater than 7 characters'),
   createAccount
+)
+
+router.post(
+  '/login',
+  body('email').isEmail().withMessage('Invalid email address'),
+  body('password').notEmpty().withMessage('Please provide a password'),
+  login
 )
 
 export default router

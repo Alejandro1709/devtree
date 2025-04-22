@@ -34,7 +34,7 @@ export const createAccount = async (req: Request, res: Response) => {
 
     res.status(201).json({ status: 'success', data: { user } })
   } catch (error) {
-    res.status(500).json(error.message)
+    res.status(500).json({ message: error.message })
   }
 }
 
@@ -60,4 +60,8 @@ export const login = async (req: Request, res: Response) => {
   const token = generateJWT({ id: user._id })
 
   res.status(200).json({ status: 'success', token })
+}
+
+export const getAuthUser = async (req: Request, res: Response) => {
+  res.status(200).json({ message: 'Ok' })
 }

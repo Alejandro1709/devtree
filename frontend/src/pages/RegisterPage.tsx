@@ -16,6 +16,7 @@ export default function RegisterPage() {
   const {
     register,
     watch,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -33,12 +34,14 @@ export default function RegisterPage() {
       }
 
       const { data } = await axios.post(
-        'http://localhost:4020/auth/register',
+        `${import.meta.env.VITE_API_URL}/auth/register`,
         formData,
         config
       )
 
       console.log(data)
+
+      reset()
     } catch (error) {
       if (isAxiosError(error) && error.response) {
         console.log(error.response.data.error)

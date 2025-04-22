@@ -56,5 +56,5 @@ export const login = async (req: Request, res: Response) => {
     return
   }
 
-  console.log('Logged in')
+  res.status(200).json({ status: 'success', data: { user } })
 }

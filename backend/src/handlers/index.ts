@@ -2,6 +2,7 @@ import type { Request, Response } from 'express'
 import slugify from 'slugify'
 import User from '../models/User'
 import { checkPassword, hashPassword } from '../utils/auth'
+import { generateJWT } from '../utils/jwt'
 
 export const createAccount = async (req: Request, res: Response) => {
   try {
@@ -56,5 +57,7 @@ export const login = async (req: Request, res: Response) => {
     return
   }
 
-  res.status(200).json({ status: 'success', data: { user } })
+  const token = generateJWT({ id: user._id })
+
+  res.status(200).json({ status: 'success', token })
 }

@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import type { RegisterForm } from '../types'
 import ErrorMessage from '../components/ErrorMessage'
-import axios, { isAxiosError } from 'axios'
+import api from '../config/axios'
+import { isAxiosError } from 'axios'
 import { toast } from 'sonner'
 
 export default function RegisterPage() {
@@ -34,11 +35,7 @@ export default function RegisterPage() {
         },
       }
 
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/register`,
-        formData,
-        config
-      )
+      const { data } = await api.post('/auth/register', formData, config)
 
       console.log(data)
       toast.success('User created successfully')

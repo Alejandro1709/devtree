@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import type { RegisterForm } from '../types'
 import ErrorMessage from '../components/ErrorMessage'
 import axios, { isAxiosError } from 'axios'
+import { toast } from 'sonner'
 
 export default function RegisterPage() {
   const initialValues: RegisterForm = {
@@ -40,11 +41,12 @@ export default function RegisterPage() {
       )
 
       console.log(data)
+      toast.success('User created successfully')
 
       reset()
     } catch (error) {
       if (isAxiosError(error) && error.response) {
-        console.log(error.response.data.error)
+        toast.error(error.response.data.error)
       }
     }
   }

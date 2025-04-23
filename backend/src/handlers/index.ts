@@ -65,3 +65,31 @@ export const login = async (req: Request, res: Response) => {
 export const getAuthUser = async (req: Request, res: Response) => {
   res.status(200).json(req.user)
 }
+
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const { description } = req.body
+
+    const userHandle = slugify(req.body.handle, '')
+
+    const handleExists = await User.findOne({ handle: userHandle })
+
+    if (handleExists && handleExists.email !== req.user.email) {
+      const error = new Error('This handle is already in use')
+      res.status(409).json({ message: error.message })
+      return
+    }
+
+    // Actualizar el usuario
+    req.user.description = description
+    req.user.handle = userHandle
+
+    await req.user.save()
+
+    res.status(200).json({ message: 'Profile Updated!' })
+  } catch (error) {
+    const err = new Error('Some error happened!')
+    res.status(500).json({ message: err.message })
+    return
+  }
+}

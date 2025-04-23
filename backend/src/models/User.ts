@@ -6,6 +6,7 @@ export interface IUser extends Document {
   handle: string
   description: string
   password: string
+  image: string
 }
 
 const userSchema = new Schema({
@@ -37,6 +38,10 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'A user must have a password'],
     minlength: [7, 'Please provide a password greater than 7 characters'],
+  },
+  image: {
+    type: String,
+    default: '',
   },
 })
 

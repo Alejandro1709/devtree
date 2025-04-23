@@ -4,6 +4,7 @@ export interface IUser {
   name: string
   email: string
   handle: string
+  description: string
   password: string
 }
 
@@ -19,6 +20,11 @@ const userSchema = new Schema({
     trim: true,
     unique: true,
     lowercase: true,
+  },
+  description: {
+    type: String,
+    trim: true,
+    default: '',
   },
   email: {
     type: String,

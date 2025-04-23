@@ -63,5 +63,5 @@ export const login = async (req: Request, res: Response) => {
 }
 
 export const getAuthUser = async (req: Request, res: Response) => {
-  res.status(200).json({ message: 'Ok' })
+  res.status(200).json(req.user)
 }

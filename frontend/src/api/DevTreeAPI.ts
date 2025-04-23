@@ -1,6 +1,6 @@
 import { isAxiosError } from 'axios'
 import api from '../config/axios'
-import { ProfileForm, type User } from '../types'
+import type { ProfileForm, User } from '../types'
 
 export async function getAuthUser() {
   try {
@@ -20,6 +20,21 @@ export async function updateUser(formData: ProfileForm) {
       '/auth/user',
       formData
     )
+
+    return data
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message)
+    }
+  }
+}
+
+export async function uploadImage(file: File) {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  try {
+    const { data } = await api.post('/auth/user/image', formData)
 
     return data
   } catch (error) {

@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getUserByHandle } from '../api/DevTreeAPI'
 import { Ring2 } from 'ldrs/react'
 import 'ldrs/react/Ring2.css'
+import HandleData from '../components/HandleData'
 
 export default function HandlePage() {
   const params = useParams()
@@ -31,7 +32,5 @@ export default function HandlePage() {
 
   if (error) return <Navigate to="/404" />
 
-  console.log(data)
-
-  return <div>HandlePage</div>
+  if (data) return <HandleData data={data} />
 }

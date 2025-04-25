@@ -71,7 +71,7 @@ export const getAuthUser = async (req: Request, res: Response) => {
 
 export const updateProfile = async (req: Request, res: Response) => {
   try {
-    const { description } = req.body
+    const { description, links } = req.body
 
     const userHandle = slugify(req.body.handle, '')
 
@@ -86,6 +86,7 @@ export const updateProfile = async (req: Request, res: Response) => {
     // Actualizar el usuario
     req.user.description = description
     req.user.handle = userHandle
+    req.user.links = links
 
     await req.user.save()
 

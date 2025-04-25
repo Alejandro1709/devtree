@@ -1,6 +1,6 @@
 import { isAxiosError } from 'axios'
 import api from '../config/axios'
-import type { ProfileForm, User } from '../types'
+import type { User } from '../types'
 
 export async function getAuthUser() {
   try {
@@ -14,7 +14,7 @@ export async function getAuthUser() {
   }
 }
 
-export async function updateUser(formData: ProfileForm) {
+export async function updateUser(formData: User) {
   try {
     const { data } = await api.patch<{ message: string }>(
       '/auth/user',

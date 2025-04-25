@@ -12,6 +12,6 @@ connectDB(process.env.MONGO_URI)
 app.use(express.json())
 app.use(cors(corsConfig))
 
-app.use('/auth', router)
+app.use('/', router)
 
 export default app

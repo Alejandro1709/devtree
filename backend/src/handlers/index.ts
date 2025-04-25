@@ -65,7 +65,7 @@ export const login = async (req: Request, res: Response) => {
   res.status(200).json({ status: 'success', token })
 }
 
-export const getAuthUser = async (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   res.status(200).json(req.user)
 }
 
@@ -126,6 +126,28 @@ export const uploadImage = async (req: Request, res: Response) => {
         }
       )
     })
+  } catch (error) {
+    const err = new Error('Some error happened!')
+    res.status(500).json({ message: err.message })
+    return
+  }
+}
+
+export const getUserByHandle = async (req: Request, res: Response) => {
+  try {
+    const { handle } = req.params
+
+    const user = await User.findOne({ handle }).select(
+      '-_id -__v -email -password'
+    )
+
+    if (!user) {
+      const err = new Error('This user does not exists!')
+      res.status(404).json({ message: err.message })
+      return
+    }
+
+    res.status(200).json(user)
   } catch (error) {
     const err = new Error('Some error happened!')
     res.status(500).json({ message: err.message })

@@ -4,7 +4,7 @@ import type { User } from '../types'
 
 export async function getAuthUser() {
   try {
-    const { data } = await api.get<User>('/auth/me')
+    const { data } = await api.get<User>('/user')
 
     return data
   } catch (error) {
@@ -16,10 +16,7 @@ export async function getAuthUser() {
 
 export async function updateUser(formData: User) {
   try {
-    const { data } = await api.patch<{ message: string }>(
-      '/auth/user',
-      formData
-    )
+    const { data } = await api.patch<{ message: string }>('/user', formData)
 
     return data
   } catch (error) {
@@ -34,7 +31,7 @@ export async function uploadImage(file: File) {
   formData.append('file', file)
 
   try {
-    const { data } = await api.post('/auth/user/image', formData)
+    const { data } = await api.post('/user/image', formData)
 
     return data
   } catch (error) {

@@ -2,7 +2,8 @@ import { Router } from 'express'
 import { body } from 'express-validator'
 import {
   createAccount,
-  getAuthUser,
+  getUser,
+  getUserByHandle,
   login,
   updateProfile,
   uploadImage,
@@ -14,36 +15,37 @@ const router = Router()
 
 /** Authentication and Registration */
 router.post(
-  '/register',
-  body('name').notEmpty().withMessage('Name cannot be empty'),
-  body('handle').notEmpty().withMessage('Handle cannot be empty'),
-  body('email').isEmail().withMessage('Invalid email address'),
+  '/auth/register',
+  body('handle').notEmpty().withMessage('El handle no puede ir vacio'),
+  body('name').notEmpty().withMessage('El Nombre no puede ir vacio'),
+  body('email').isEmail().withMessage('E-mail no válido'),
   body('password')
-    .isLength({ min: 7 })
-    .withMessage('Please provide a password greater than 7 characters'),
+    .isLength({ min: 8 })
+    .withMessage('El Password es muy corto, mínimo 8 caracteres'),
   handleInputErrors,
   createAccount
 )
 
 router.post(
-  '/login',
-  body('email').isEmail().withMessage('Invalid email address'),
-  body('password').notEmpty().withMessage('Please provide a password'),
+  '/auth/login',
+  body('email').isEmail().withMessage('E-mail no válido'),
+  body('password').notEmpty().withMessage('El Password es obligatorio'),
   handleInputErrors,
   login
 )
 
-router.get('/me', authenticate, getAuthUser)
+router.get('/user', authenticate, getUser)
 
 router.patch(
   '/user',
-  body('handle').notEmpty().withMessage('Handle cannot be empty'),
-  body('description').notEmpty().withMessage('Description cannot be empty'),
+  body('handle').notEmpty().withMessage('El handle no puede ir vacio'),
   handleInputErrors,
   authenticate,
   updateProfile
 )
 
 router.post('/user/image', authenticate, uploadImage)
+
+router.get('/:handle', getUserByHandle)
 
 export default router

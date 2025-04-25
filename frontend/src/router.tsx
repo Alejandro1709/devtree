@@ -6,6 +6,7 @@ import AppLayout from './layouts/AppLayout'
 import LinkTreePage from './pages/LinkTreePage'
 import ProfilePage from './pages/ProfilePage'
 import HandlePage from './pages/HandlePage'
+import NotFoundPage from './pages/NotFoundPage'
 
 export default function Router() {
   return (
@@ -23,6 +24,10 @@ export default function Router() {
 
         <Route path="/:handle" element={<AuthLayout />}>
           <Route index={true} element={<HandlePage />} />
+        </Route>
+
+        <Route path="/404" element={<AuthLayout />}>
+          <Route index={true} element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -46,37 +46,31 @@ export default function LinkTreeView() {
   const links: SocialNetwork[] = JSON.parse(user.links)
 
   const handleToggleLink = (socialNetwork: string) => {
-    const updatedLinks = devTreeLinks.map((link) => {
-      if (link.name === socialNetwork) {
-        if (isValidUrl(link.url)) {
-          return { ...link, enabled: !link.enabled }
+    const updatedLinks = devTreeLinks.map((item) => {
+      if (item.name === socialNetwork) {
+        if (isValidUrl(item.url)) {
+          return { ...item, enabled: !item.enabled }
         } else {
-          toast.error('Invalid URL')
+          toast.error('URL is not valid.')
+          return item
         }
       }
-      return link
+      return item
     })
-
-    setDevTreeLinks(updatedLinks)
 
     let updatedItems: SocialNetwork[] = []
     const selectedSocialNetwork = updatedLinks.find(
       (link) => link.name === socialNetwork
     )
+
     if (selectedSocialNetwork?.enabled) {
-      const id = links.filter((link) => link.id).length + 1
+      // Enabling the link
+      const id = links.filter((link) => link.enabled).length + 1
+
       if (links.some((link) => link.name === socialNetwork)) {
-        updatedItems = links.map((link) => {
-          if (link.name === socialNetwork) {
-            return {
-              ...link,
-              enabled: true,
-              id,
-            }
-          } else {
-            return link
-          }
-        })
+        updatedItems = links.map((link) =>
+          link.name === socialNetwork ? { ...link, enabled: true, id } : link
+        )
       } else {
         const newItem = {
           ...selectedSocialNetwork,
@@ -85,33 +79,24 @@ export default function LinkTreeView() {
         updatedItems = [...links, newItem]
       }
     } else {
-      const indexToUpdate = links.findIndex(
+      // Disabling the link
+      const indexToDisable = links.findIndex(
         (link) => link.name === socialNetwork
       )
+
       updatedItems = links.map((link) => {
         if (link.name === socialNetwork) {
-          return {
-            ...link,
-            id: 0,
-            enabled: false,
-          }
-        } else if (
-          link.id > indexToUpdate &&
-          indexToUpdate !== 0 &&
-          link.id === 1
-        ) {
-          return {
-            ...link,
-            id: link.id - 1,
-          }
+          return { ...link, id: 0, enabled: false }
+        } else if (link.id > links[indexToDisable].id) {
+          return { ...link, id: link.id - 1 } // Adjust indices
         } else {
           return link
         }
       })
     }
 
-    console.log(updatedItems)
-    // Almacenar en la base de datos
+    setDevTreeLinks(updatedLinks)
+
     queryClient.setQueryData(['user'], (prevData: User) => {
       return {
         ...prevData,

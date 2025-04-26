@@ -7,6 +7,7 @@ import LinkTreePage from './pages/LinkTreePage'
 import ProfilePage from './pages/ProfilePage'
 import HandlePage from './pages/HandlePage'
 import NotFoundPage from './pages/NotFoundPage'
+import HomePage from './pages/HomePage'
 
 export default function Router() {
   return (
@@ -25,6 +26,8 @@ export default function Router() {
         <Route path="/:handle" element={<AuthLayout />}>
           <Route index={true} element={<HandlePage />} />
         </Route>
+
+        <Route path="/" element={<HomePage />} />
 
         <Route path="/404" element={<AuthLayout />}>
           <Route index={true} element={<NotFoundPage />} />

@@ -6,8 +6,8 @@ import AppLayout from './layouts/AppLayout'
 import LinkTreePage from './pages/LinkTreePage'
 import ProfilePage from './pages/ProfilePage'
 import HandlePage from './pages/HandlePage'
-import NotFoundPage from './pages/NotFoundPage'
 import HomePage from './pages/HomePage'
+import NotFoundPage from './pages/NotFoundPage'
 
 export default function Router() {
   return (

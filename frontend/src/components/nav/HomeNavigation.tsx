@@ -9,6 +9,13 @@ export default function HomeNavigation() {
       >
         Login
       </Link>
+
+      <Link
+        className="bg-lime-500 text-slate-800 p-2 uppercase font-black text-xs cursor-pointer rounded-lg"
+        to="/auth/register"
+      >
+        Sign Up
+      </Link>
     </>
   )
 }

@@ -154,3 +154,23 @@ export const getUserByHandle = async (req: Request, res: Response) => {
     return
   }
 }
+
+export const searchByHandle = async (req: Request, res: Response) => {
+  try {
+    const { handle } = req.body
+
+    const userExists = await User.findOne({ handle })
+
+    if (userExists) {
+      const err = new Error(`${handle} is already registered`)
+      res.status(409).json({ message: err.message })
+      return
+    }
+
+    res.status(200).json({ message: `${handle} is available!` })
+  } catch (error) {
+    const err = new Error('Some error happened!')
+    res.status(500).json({ message: err.message })
+    return
+  }
+}

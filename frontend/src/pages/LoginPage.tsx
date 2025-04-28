@@ -2,9 +2,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import ErrorMessage from '../components/ErrorMessage'
 import type { LoginForm } from '../types'
-import api from '../config/axios'
 import { toast } from 'sonner'
 import { isAxiosError } from 'axios'
+import { useMutation } from '@tanstack/react-query'
+import { login } from '../api/DevTreeAPI'
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -20,15 +21,11 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm({ defaultValues: initialValues })
 
+  const { data, mutate } = useMutation({ mutationFn: login })
+
   const handleLogin = async (formData: LoginForm) => {
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-
-      const { data } = await api.post('/auth/login', formData, config)
+      mutate(formData)
 
       localStorage.setItem('token', data.token)
 

@@ -1,6 +1,42 @@
 import { isAxiosError } from 'axios'
 import api from '../config/axios'
-import type { User, UserHandle } from '../types'
+import type { LoginForm, RegisterForm, User, UserHandle } from '../types'
+
+export async function login({ email, password }: LoginForm) {
+  try {
+    const { data } = await api.post('/auth/login', { email, password })
+
+    return data
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message)
+    }
+  }
+}
+
+export async function signup({
+  name,
+  handle,
+  email,
+  password,
+  password_confirmation,
+}: RegisterForm) {
+  try {
+    const { data } = await api.post('/auth/register', {
+      name,
+      handle,
+      email,
+      password,
+      password_confirmation,
+    })
+
+    return data
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message)
+    }
+  }
+}
 
 export async function getAuthUser() {
   try {

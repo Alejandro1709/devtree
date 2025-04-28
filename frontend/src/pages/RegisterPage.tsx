@@ -2,9 +2,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import type { RegisterForm } from '../types'
 import ErrorMessage from '../components/ErrorMessage'
-import api from '../config/axios'
 import { isAxiosError } from 'axios'
+import { signup } from '../api/DevTreeAPI'
 import { toast } from 'sonner'
+import { useMutation } from '@tanstack/react-query'
 
 export default function RegisterPage() {
   const location = useLocation()
@@ -29,17 +30,13 @@ export default function RegisterPage() {
     defaultValues: initialValues,
   })
 
+  const { data, mutate } = useMutation({ mutationFn: signup })
+
   const password = watch('password')
 
   const handleRegister = async (formData: RegisterForm) => {
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-
-      const { data } = await api.post('/auth/register', formData, config)
+      mutate(formData)
 
       console.log(data)
 

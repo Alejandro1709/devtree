@@ -1,3 +1,4 @@
+import React from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getUserByHandle } from '../api/DevTreeAPI'

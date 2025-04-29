@@ -1,3 +1,4 @@
+import React from 'react'
 import type { SocialNetwork, UserHandle } from '../types'
 
 type HandleDataProps = {

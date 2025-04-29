@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import NavigationTabs from './NavigationTabs'
 import { Toaster } from 'sonner'
